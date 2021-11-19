@@ -1,0 +1,56 @@
+name: k2p_padavan
+
+on:
+  workflow_dispatch:
+
+env:
+  REPO_URL: https://github.com/hanwckf/rt-n56u
+  BRANCH_TAG: master
+  SYSTEM: padavan
+  MODEL: k2p
+  TARGET: K2P_nano
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: checkout
+      uses: actions/checkout@main
+
+    - name: build-system setup
+      run: |
+        sudo apt-get update
+        sudo apt-get install libtool-bin gperf python3-docutils autopoint gettext
+        sudo timedatectl set-timezone "Asia/Shanghai"
+
+    - name: clone repository
+      run: git clone $REPO_URL -b $BRANCH_TAG /opt/rt-n56u
+
+    - name: load config
+      run: cp -rf ./padavan/trunk /opt/rt-n56u/
+
+    - name: prepare toolchain
+      run: |
+       cd /opt/rt-n56u/toolchain-mipsel
+       sh dl_toolchain.sh
+
+    - name: building images
+      id: build
+      run: |
+        cd /opt/rt-n56u/trunk
+        fakeroot ./build_firmware_modify $TARGET
+
+    - name: create archive
+      if: ${{ github.event_name != 'release' && success() }}
+      run: |
+        cd /opt/rt-n56u/trunk/images
+        mv *.trx $TARGET.trx
+        sha256sum *.trx | tee $TARGET.sha256sum
+        echo "BULID_TIME=$(date +"%m%d%H%M")" >> $GITHUB_ENV
+
+    - name: upload images
+      if: ${{ github.event_name != 'release' && success() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.SYSTEM }}_${{ env.MODEL }}_${{ env.BULID_TIME }}
+        path: /opt/rt-n56u/trunk/images/${{ env.TARGET }}.*
