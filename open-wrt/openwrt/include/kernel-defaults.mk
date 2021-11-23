@@ -106,6 +106,8 @@ define Kernel/Configure/Default
 		cp $(LINUX_DIR)/.config.set $(LINUX_DIR)/.config.prev; \
 	}
 	$(_SINGLE) [ -d $(LINUX_DIR)/user_headers ] || $(KERNEL_MAKE) INSTALL_HDR_PATH=$(LINUX_DIR)/user_headers headers_install
+#	grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | mkhash md5 > $(LINUX_DIR)/.vermagic
+#	cp $(TOPDIR)/.vermagic $(LINUX_DIR)/.vermagic
 	echo ecc7515846d9a85938da6124aee98749 > $(LINUX_DIR)/.vermagic
 endef
 
