@@ -50,7 +50,7 @@ jobs:
 
     - name: upload images
       if: ${{ github.event_name != 'release' && success() }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.SYSTEM }}_${{ env.MODEL }}_${{ env.BULID_TIME }}
         path: /opt/rt-n56u/trunk/images/${{ env.TARGET }}.*
