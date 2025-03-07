@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
 
 env:
-  REPO_URL: https://github.com/hanwckf/rt-n56u
+  REPO_URL: https://github.com/h8820/rt-n56u
   BRANCH_TAG: master
   SYSTEM: padavan
-  MODEL: k2p
-  TARGET: K2P_nano
+  MODEL: YOUKU
+  TARGET: YK-L1
 
 jobs:
   build:
