@@ -7,7 +7,7 @@ env:
   REPO_URL: https://github.com/h8820/rt-n56u
   BRANCH_TAG: master
   SYSTEM: padavan
-  MODEL: YK-L1
+  MODEL: YOUKU
   TARGET: YK-L1
 
 jobs:
