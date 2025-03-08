@@ -5,7 +5,7 @@ on:
 
 env:
   REPO_URL: https://github.com/h8820/rt-n56u
-  BRANCH_TAG: master2
+  BRANCH_TAG: master
   SYSTEM: padavan
   MODEL: YOUKU
   TARGET: YK-L1
